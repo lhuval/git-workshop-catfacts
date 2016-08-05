@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<edmx:Edmx Version="1.0"
+    xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+    <edmx:DataServices m:DataServiceVersion="2.0"
+        xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata">
+        <Schema
+            xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="GrantsModel">
+            <EntityType Name="GrantDetail">
+                <Key>
+                    <PropertyRef  Name="GrantNumber"/>
+                </Key>
+                <Property Name="GrantNumber" Type="Edm.String" Nullable="false" MaxLength="20"></Property>
+                <Property Name="GrantDesc" Type="Edm.String" Nullable="false" MaxLength="40"></Property>
+                <Property Name="GrantEndDate" Type="Edm.DateTime" MaxLength="8"></Property>
+                <Property Name="GrantBudgetAmt" Type="Edm.Decimal" Precision="15" Scale="2"></Property>
+                <Property Name="GrantCommExpAmt" Type="Edm.Decimal" Precision="15" Scale="2"></Property>
+                <Property Name="GrantUnspentAmt" Type="Edm.Decimal" Precision="15" Scale="2"></Property>
+                <Property Name="GrantUsnam" Type="Edm.String" Nullable="false" MaxLength="12"></Property>
+                <NavigationProperty Name="SponsProgDetail" Relationship="GrantsModel.FK_GrantDetail_SponsProgDetail" ToRole="SponsProgDetail" FromRole="GrantDetail"></NavigationProperty>
+            </EntityType>
+            <EntityType Name="SponsProgDetail">
+                <Key>
+                    <PropertyRef  Name="GrantNumber"/>
+                    <PropertyRef  Name="SponsProgNum"/>
+                </Key>
+                <Property Name="GrantNumber" Type="Edm.String" Nullable="false" MaxLength="20"></Property>
+                <Property Name="SponsProgNum" Type="Edm.String" Nullable="false" MaxLength="20"></Property>
+                <Property Name="SponsProgDesc" Type="Edm.String" Nullable="false" MaxLength="30"></Property>
+                <Property Name="SponsProgDate" Type="Edm.DateTime" MaxLength="8"></Property>
+                <Property Name="SponsProgBudAmt" Type="Edm.Decimal" Precision="15" Scale="2"></Property>
+                <Property Name="SponsProgCommExpAmt" Type="Edm.Decimal" Precision="15" Scale="2"></Property>
+                <Property Name="SponsProgFandAAmt" Type="Edm.Decimal" Precision="15" Scale="2"></Property>
+                <Property Name="SponsProgBalAmt" Type="Edm.Decimal" Precision="15" Scale="2"></Property>
+                <NavigationProperty Name="GrantDetail" Relationship="GrantsModel.FK_SponsProgDetail_GrantDetail" ToRole="GrantDetail" FromRole="SponsProgDetail"></NavigationProperty>
+                <NavigationProperty Name="SponsClassDetail" Relationship="GrantsModel.FK_SponsProgDetail_SponsClassDetail" ToRole="SponsClassDetail" FromRole="SponsProgDetail"></NavigationProperty>
+            </EntityType>
+            <EntityType Name="SponsClassDetail">
+                <Key>
+                    <PropertyRef  Name="SponsProgNum"/>
+                    <PropertyRef  Name="SponsClassNum"/>
+                </Key>
+                <Property Name="GrantNumber" Type="Edm.String" Nullable="false" MaxLength="20"></Property>
+                <Property Name="SponsProgNum" Type="Edm.String" Nullable="false" MaxLength="20"></Property>
+                <Property Name="SponsClassNum" Type="Edm.String" Nullable="false" MaxLength="20"></Property>
+                <Property Name="SponsClassDesc" Type="Edm.String" Nullable="false" MaxLength="30"></Property>
+                <Property Name="SponsClassDate" Type="Edm.DateTime" MaxLength="8"></Property>
+                <Property Name="SponsClassCumBudAmt" Type="Edm.Decimal" Precision="15" Scale="2"></Property>
+                <Property Name="SponsClassCumCommitAmt" Type="Edm.Decimal" Precision="15" Scale="2"></Property>
+                <Property Name="SponsClassFyCumExpAmt" Type="Edm.Decimal" Precision="15" Scale="2"></Property>
+                <Property Name="SponsClassBalAmt" Type="Edm.Decimal" Precision="15" Scale="2"></Property>
+                <Property Name="SponsClassCurrExp" Type="Edm.Decimal" Precision="15" Scale="2"></Property>
+                <Property Name="SponsClassCurrAmt" Type="Edm.Decimal" Precision="15" Scale="2"></Property>
+                <NavigationProperty Name="SponsProgDetail" Relationship="GrantsModel.FK_SponsClassDetail_SponsProgDetail" ToRole="SponsProgDetail" FromRole="SponsClassDetail"></NavigationProperty>
+                <NavigationProperty Name="SponsLineDetail" Relationship="GrantsModel.FK_SponsClassDetail_SponLineDetail" ToRole="SponsLineDetail" FromRole="SponsClassDetail"></NavigationProperty>
+            </EntityType>
+            <EntityType Name="SponsLineDetail">
+                <Key>
+                    <PropertyRef Name="SponsProgNum"/>
+                    <PropertyRef  Name="SponsClassNum"/>
+                    <PropertyRef  Name="SponsLineNum"/>
+                </Key>
+                <Property Name="GrantNumber" Type="Edm.String" Nullable="false" MaxLength="20"></Property>
+                <Property Name="SponsProgNum" Type="Edm.String" Nullable="false" MaxLength="20"></Property>
+                <Property Name="SponsClassNum" Type="Edm.String" Nullable="false" MaxLength="20"></Property>
+                <Property Name="SponsLineNum" Type="Edm.String" Nullable="false" MaxLength="20"></Property>
+                <Property Name="SponsLineDesc" Type="Edm.String" Nullable="false" MaxLength="30"></Property>
+                <Property Name="SponsLineDate" Type="Edm.DateTime" MaxLength="8"></Property>
+                <Property Name="SponsLineAmt" Type="Edm.Decimal" Precision="15" Scale="2"></Property>
+                <Property Name="SponsType" Type="Edm.String" Nullable="false" MaxLength="20"/>
+            </EntityType>
+            <Association Name="FK_SponsProgDetail_GrantDetail">
+                <End Multiplicity="*" Role="SponsProgDetail" Type="GrantsModel.SponsProgDetail"/>
+                <End Multiplicity="0..1" Role="GrantDetail" Type="GrantsModel.GrantDetail"/>
+            </Association>
+            <Association Name="FK_GrantDetail_SponsProgDetail">
+                <End Multiplicity="0..1" Role="GrantDetail" Type="GrantsModel.GrantDetail"/>
+                <End Multiplicity="*" Role="SponsProgDetail" Type="GrantsModel.SponsProgDetail"/>
+                <ReferentialConstraint>
+                    <Principal Role="GrantDetail">
+                        <PropertyRef Name="GrantNumber"/>
+                    </Principal>
+                    <Dependent Role="SponsProgDetail">
+                        <PropertyRef Name="GrantNumber"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="FK_SponsClassDetail_SponsProgDetail">
+                <End Multiplicity="*" Role="SponsClassDetail" Type="GrantsModel.SponsClassDetail"/>
+                <End Multiplicity="0..1" Role="SponsProgDetail" Type="GrantsModel.SponsProgDetail"/>
+            </Association>
+            <Association Name="FK_SponsProgDetail_SponsClassDetail">
+                <End Multiplicity="0..1" Role="SponsProgDetail" Type="GrantsModel.SponsProgDetail"/>
+                <End Multiplicity="*" Role="SponsClassDetail" Type="GrantsModel.SponsClassDetail"/>
+                <ReferentialConstraint>
+                    <Principal Role="SponsProgDetail">
+                        <PropertyRef Name="SponsProgNum"/>
+                    </Principal>
+                    <Dependent Role="SponsClassDetail">
+                        <PropertyRef Name="SponsProgNum"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="FK_SponsClassDetail_SponLineDetail">
+                <End Multiplicity="0..1" Role="SponsClassDetail" Type="GrantsModel.SponsClassDetail"/>
+                <End Multiplicity="*" Role="SponsLineDetail" Type="GrantsModel.SponsLineDetail"/>
+                <ReferentialConstraint>
+                    <Principal Role="SponsClassDetail">
+                        <PropertyRef Name="SponsProgNum"/>
+                        <PropertyRef Name="SponsClassNum"/>
+                    </Principal>
+                    <Dependent Role="SponsLineDetail">
+                        <PropertyRef Name="SponsProgNum"/>
+                        <PropertyRef Name="SponsClassNum"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <EntityContainer Name="GrantData" m:IsDefaultEntityContainer="true">
+                <EntitySet Name="GrantDetails" EntityType="GrantsModel.GrantDetail"></EntitySet>
+                <EntitySet EntityType="GrantsModel.SponsProgDetail" Name="SponsProgDetails"/>
+                <EntitySet EntityType="GrantsModel.SponsClassDetail" Name="SponsClassDetails"/>
+                <EntitySet EntityType="GrantsModel.SponsLineDetail" Name="SponsLineDetails"/>
+                <AssociationSet Association="GrantsModel.FK_GrantDetail_SponsProgDetail" Name="GD_TO_SPD_AssocSet">
+                    <End EntitySet="GrantDetails" Role="GrantDetail"/>
+                    <End EntitySet="SponsProgDetails" Role="SponsProgDetail"/>
+                </AssociationSet>
+                <AssociationSet Association="GrantsModel.FK_SponsProgDetail_GrantDetail" Name="SPD_TO_GD_AssocSet">
+                    <End EntitySet="SponsProgDetails" Role="SponsProgDetail"/>
+                    <End EntitySet="GrantDetails" Role="GrantDetail"/>
+                </AssociationSet>
+                <AssociationSet Association="GrantsModel.FK_SponsProgDetail_SponsClassDetail" Name="SPD_TO_SCD_AssocSet">
+                    <End EntitySet="SponsClassDetails" Role="SponsClassDetail"/>
+                    <End EntitySet="SponsProgDetails" Role="SponsProgDetail"/>
+                </AssociationSet>
+                <AssociationSet Association="GrantsModel.FK_SponsClassDetail_SponsProgDetail" Name="SCD_TO_SPD_AssocSet">
+                    <End EntitySet="SponsProgDetails" Role="SponsProgDetail"/>
+                    <End EntitySet="SponsClassDetails" Role="SponsClassDetail"/>
+                </AssociationSet>
+                <AssociationSet Association="GrantsModel.FK_SponsClassDetail_SponLineDetail" Name="SCD_TO_SLD_AssocSet">
+                    <End EntitySet="SponsLineDetails" Role="SponsLineDetail"/>
+                    <End EntitySet="SponsClassDetails" Role="SponsClassDetail"/>
+                </AssociationSet>
+            </EntityContainer>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

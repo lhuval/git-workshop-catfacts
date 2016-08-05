@@ -1,0 +1,102 @@
+<mvc:View xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form"
+	controllerName="my_grants_v126.view.Detail">
+	<Page id="detailPage" navButtonPress="onNavBack" title="{i18n>detailTitle}" showNavButton="{device>/isPhone}">
+		<content>
+			<ObjectHeader id="detailHeader" title="{GrantDesc}" number="{GrantBudgetAmt}" numberUnit="" introActive="false" titleActive="false"
+				iconActive="false">
+				<attributes id="detailAttributes">
+					<ObjectAttribute id="attribute" text="{i18n>detailText}" active="false"/>
+				</attributes>
+				<firstStatus id="detailStatus">
+					<ObjectStatus id="status" text="{GrantNumber}"/>
+				</firstStatus>
+			</ObjectHeader>
+			<IconTabBar id="idIconTabBar" expanded="{device>/isNoPhone}">
+				<items id="detailsItems">
+					<IconTabFilter id="iconTabFilter1" key="selfInfo" icon="sap-icon://hint">
+						<content>
+							<f:SimpleForm id="iconTabFilter1form" minWidth="1024" editable="false" layout="ResponsiveGridLayout" labelSpanL="3" labelSpanM="3"
+								emptySpanL="4" emptySpanM="4" columnsL="1">
+								<f:content>
+									<Label id="label1" text="GrantDesc"/>
+									<Text id="text1" text="{GrantDesc}" maxLines="0"/>
+									<Label id="label2" text="GrantBudgetAmt"/>
+									<Text id="text2" text="{GrantBudgetAmt}" maxLines="0"/>
+									<Label id="label3" text="GrantEndDate"/>
+									<Text id="text3" text="{path: 'GrantEndDate', formatter:'sap.ui.my.formatter.date'}" maxLines="0"/>
+									<core:ExtensionPoint name="extIconTabFilterForm1"/>
+								</f:content>
+							</f:SimpleForm>
+						</content>
+					</IconTabFilter>
+					<IconTabFilter id="iconTabFilter2" key="" icon="sap-icon://enter-more">
+						<content>
+							<f:SimpleForm id="iconTabFilter2form" minWidth="1024" editable="false" layout="ResponsiveGridLayout" labelSpanL="3" labelSpanM="3"
+								emptySpanL="4" emptySpanM="4" columnsL="1">
+								<f:content>
+									<Label id="label4" text=""/>
+									<Text id="text4" text="" maxLines="0"/>
+									<Label id="label5" text=""/>
+									<Text id="text5" text="" maxLines="0"/>
+									<Label id="label6" text=""/>
+									<Text id="text6" text="" maxLines="0"/>
+									<core:ExtensionPoint name="extIconTabFilterForm2"/>
+								</f:content>
+							</f:SimpleForm>
+						</content>
+					</IconTabFilter>
+					<core:ExtensionPoint name="extIconTabFilter"/>
+				</items>
+			</IconTabBar>
+			<Text text="Sponsored Program List" maxLines="0" id="__textsplist"/>
+			<Table items="{SponsProgDetail}" updateFinished="onListUpdateFinished"
+				noDataText="Drop column list items here and columns in the area above" id="__table0">
+				<headerToolbar>
+					<Toolbar id="lineItemsToolbar">
+						<Title id="lineItemsHeader" text="{detailView>/lineItemListTitle}"/>
+					</Toolbar>
+				</headerToolbar>
+				<items>
+					<ColumnListItem counter="0" id="__item12">
+						<cells>
+							<Text text="{SponsProgDesc}&#10;{SponsProgNum}" maxLines="0" id="__text19"/>
+							<Text text="{path:'SponsProgDate', formatter: 'sap.ui.my.formatter.date'}" maxLines="0" id="__text20"/>
+							<Text text="{SponsProgBudAmt}" maxLines="0" id="__text21"/></cells>
+					</ColumnListItem>
+				<!--	<ColumnListItem counter="0" id="__item13">
+						<cells>
+							<Text text="Row 2 Cell 1" maxLines="0" id="__text22"/>
+							<Text text="Row 2 Cell 2" maxLines="0" id="__text23"/>
+							<Text text="Row 2 Cell 3" maxLines="0" id="__text24"/></cells>
+					</ColumnListItem> -->
+				</items>
+				<columns>
+					<Column id="__column4">
+						<header>
+							<Label text="Desc - Num" id="__label5"/>
+						</header>
+					</Column>
+					<Column id="__column5">
+						<header>
+							<Label text="End Date" id="__label6"/>
+						</header>
+					</Column>
+					<Column id="__column6">
+						<header>
+							<Label text="Budget" id="__label7"/>
+						</header>
+					</Column>
+				</columns>
+			</Table>
+			<core:ExtensionPoint name="extDetail"/>
+		</content>
+		<footer id="detailFooter">
+			<Toolbar id="detailToolbar">
+				<content>
+					<ToolbarSpacer id="toolbarSpacer"/>
+					<Button id="actionButton" press="openActionSheet" icon="sap-icon://action"/>
+				</content>
+			</Toolbar>
+		</footer>
+	</Page>
+</mvc:View>

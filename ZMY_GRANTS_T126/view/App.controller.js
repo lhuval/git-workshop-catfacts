@@ -1,0 +1,1 @@
+sap.ui.core.mvc.Controller.extend("my_grants_v126.view.App", {});
